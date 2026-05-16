@@ -1,4 +1,4 @@
-import type { ReactNode, useState } from "react";
+import { useState, type ReactNode } from "react";
 
 import {
   FaChartPie,
@@ -42,10 +42,10 @@ const MainLayout = ({
 
   return (
     <div
-  className={`min-h-screen flex transition-all duration-300 ${
-    darkMode ? "dark bg-gray-900" : "bg-gray-100"
-  }`}
->
+      className={`min-h-screen flex transition-all duration-300 ${
+        darkMode ? "dark bg-gray-900" : "bg-gray-100"
+      }`}
+    >
       {/* OVERLAY */}
       {sidebarOpen && (
         <div
