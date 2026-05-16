@@ -7,28 +7,14 @@ import {
   deleteLead,
 } from "../controllers/leadController";
 
-import protect from "../middleware/authMiddleware";
-
 const router = express.Router();
 
-/*
-  CREATE LEAD
-*/
-router.post("/", protect, createLead);
+router.post("/", createLead);
 
-/*
-  GET LEADS
-*/
-router.get("/", protect, getLeads);
+router.get("/", getLeads);
 
-/*
-  UPDATE LEAD
-*/
-router.put("/:id", protect, updateLead);
+router.put("/:id", updateLead);
 
-/*
-  DELETE LEAD
-*/
-router.delete("/:id", protect, deleteLead);
+router.delete("/:id", deleteLead);
 
 export default router;

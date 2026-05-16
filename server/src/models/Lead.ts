@@ -19,23 +19,7 @@ const leadSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: [
-        "new",
-        "contacted",
-        "qualified",
-        "lost",
-      ],
       default: "new",
-    },
-
-    source: {
-      type: String,
-      default: "LinkedIn",
-    },
-
-    assignedTo: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
     },
   },
   {
@@ -43,6 +27,7 @@ const leadSchema = new mongoose.Schema(
   }
 );
 
-const Lead = mongoose.model("Lead", leadSchema);
-
-export default Lead;
+export default mongoose.model(
+  "Lead",
+  leadSchema
+);

@@ -1,47 +1,46 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 
-interface AuthRequest extends Request {
+interface JwtPayload {
+  id: string;
+}
+
+export interface AuthRequest extends Request {
   user?: any;
 }
 
-const protect = async (
+export const protect = async (
   req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
-  let token;
+  try {
+    const authHeader = req.headers.authorization;
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    try {
-      token = req.headers.authorization.split(" ")[1];
-
-      const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET as string
-      ) as { id: string };
-
-      req.user = await User.findById(decoded.id).select(
-        "-password"
-      );
-
-      next();
-    } catch (error) {
+    if (!authHeader || !authHeader.startsWith("Bearer")) {
       return res.status(401).json({
-        message: "Not authorized",
+        success: false,
+        message: "Unauthorized",
       });
     }
-  }
 
-  if (!token) {
-    return res.status(401).json({
-      message: "No token provided",
+    const token = authHeader.split(" ")[1];
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as JwtPayload;
+
+    const user = await User.findById(decoded.id).select("-password");
+
+    req.user = user;
+
+    next();
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: "Token failed",
     });
   }
 };
-
-export default protect;
