@@ -88,7 +88,7 @@ const LeadsChart = () => {
               label
             >
               {data.map(
-                (entry: any,index) => (
+                (_: any, index) => (
                   <Cell
                     key={index}
                     fill={
