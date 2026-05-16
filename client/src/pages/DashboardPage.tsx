@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import MainLayout from "../layouts/MainLayout";
-import { motion } from "framer-motion";
+
 import ActivityFeed from "../components/ActivityFeed";
 
 const DashboardPage = () => {
